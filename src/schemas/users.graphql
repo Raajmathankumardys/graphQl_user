@@ -1,0 +1,49 @@
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Channel {
+  id: ID!
+  name: String!
+  users: [User!]!
+  messages: [Message!]!
+}
+
+type Message {
+  id: ID!
+  content: String!
+  sender: User!
+  channel: Channel!
+  timestamp: String!
+}
+
+type Query {
+  getUsers: [User]
+  getAllChannels: [Channel]
+  getMessagesByChannel(channelId: ID!): [Message]
+}
+
+type Mutation {
+  registerUser(name: String!, email: String!, password: String!): User
+  createChannel(name: String!): Channel
+  sendMessage(userId: ID!, channelId: ID!, content: String!): Message
+}
+
+type Subscription {
+  messageAdded(channelId: ID!): Message!
+}
+
+input UserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+type UserResponse {
+  id: ID!
+  name: String!
+  email: String!
+  status: Boolean!
+}

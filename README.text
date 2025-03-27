@@ -1,0 +1,20 @@
+/graphql-live-chat
+│── /src
+│   ├── /entities
+│   │   ├── user.ts
+│   │   ├── channel.ts
+│   │   ├── message.ts
+│   ├── /resolvers
+│   │   ├── userResolvers.ts
+│   │   ├── messageResolvers.ts
+│   ├── /services
+│   │   ├── userService.ts
+│   │   ├── messageService.ts
+│   ├── /schemas
+│   │   ├── user.graphql
+│   │   ├── message.graphql
+│   ├── di.ts
+│── index.ts
+│── package.json
+│── tsconfig.json
+│── .env
