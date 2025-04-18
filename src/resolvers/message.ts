@@ -35,23 +35,40 @@ export const messageResolvers = {
       console.log("Sending message:", content);
       
       //  Validate User
-      const user = await context.userService.getUserById(userId);
-      if (!user) throw new Error(`User with ID ${userId} does not exist.`);
+      // const user = await context.userService.getUserById(userId);
+      // if (!user) throw new Error(`User with ID ${userId} does not exist.`);
     
       //  Validate Channel
+      // const channel = await context.channelService.getChannelById(channelId);
+      // if (!channel) throw new Error(`Channel with ID ${channelId} does not exist.`);
+    
+      // //  Send Message
+       const message = await context.messageService.sendMessage(userId, channelId, content);
+       console.log('dddddddddddddddddddddddddddddddddddddddddddddddddddd')
+      // console.log("Message sent:", message);
+      // if (!message) throw new Error("Message creation failed.");
+      const user = await context.userService.getUserById(userId);
+      if (!user) throw new Error(`User with ID ${userId} does not exist.`);
+      
       const channel = await context.channelService.getChannelById(channelId);
-      if (!channel) throw new Error(`Channel with ID ${channelId} does not exist.`);
-    
-      //  Send Message
-      const message = await context.messageService.sendMessage(userId, channelId, content);
-      if (!message) throw new Error("Message creation failed.");
-    
+      if (!channel || !channel.name) throw new Error(`Channel with ID ${channelId} does not exist or has no name.`);
+      
+      // Create message
+      const messageResponse = {
+        id: message.id,
+        content,
+        user,           // ✅ Should be a single object
+        channel,        // ✅ Should contain 'name'
+        timestamp: new Date().toISOString(),
+      };
+      
       //  Publish Event
       const topic = `MESSAGE_ADDED_${channelId}`;
       console.log(`Publishing message to topic: ${topic}`);
+      
       pubsub.publish(topic, { messageAdded: message });
     console.log("Sent message:", message);
-      return message;
+      return messageResponse;
     },
     
   },

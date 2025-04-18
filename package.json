@@ -27,8 +27,10 @@
     "graphql": "^16.10.0",
     "graphql-subscriptions": "^3.0.0",
     "graphql-ws": "^6.0.4",
+    "jsonwebtoken": "^9.0.2",
     "mercurius": "^16.1.0",
     "mysql": "^2.18.1",
+    "nodemon": "^3.1.9",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
     "subscriptions-transport-ws": "^0.11.0",
@@ -38,9 +40,9 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.11",
     "@types/ws": "^8.18.0",
-    "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },

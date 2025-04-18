@@ -12,6 +12,7 @@ import { ChannelService } from "./src/services/channelService";
 import { MessageService } from "./src/services/messageService";
 import { AppDataSource } from "./src/di";
 import { PubSub } from "graphql-subscriptions";
+import { verifyToken } from "./src/auth/auth"; // Create this file
 
 const fastify = Fastify();
 const pubsub = new PubSub(); //  Initialize PubSub
@@ -48,12 +49,31 @@ const schema = makeExecutableSchema({
 // Register Fastify GraphQL Plugin (Mercurius)
 fastify.register(mercurius, {
   schema,
-  context: () => ({
-    pubsub, 
-    userService,
-    channelService,
-    messageService
-  }),
+  context: async (req, reply) => {
+    const body = req.body as { query?: string }; // <- Fix here
+  console.log("Request body:", body); // Log the request body for debugging
+    const publicOps = ["registerUser", "loginUser"];
+    const isPublic = publicOps.some(op => body.query?.includes(op));
+  console.log("Is public operation:", isPublic); // Log the operation type for debugging
+    let user = null;
+    if (!isPublic) {
+      try {
+        user = verifyToken(req);
+      } catch (err) {
+        reply.code(401);
+        throw new Error("Unauthorized: Invalid or missing token");
+      }
+    }
+  
+    return {
+      user,
+      pubsub,
+      userService,
+      channelService,
+      messageService
+    };
+  },
+  
   subscription: true,
   graphiql: true // Enable GraphiQL Web UI
 });

@@ -14,7 +14,7 @@ type Channel {
 type Message {
   id: ID!
   content: String!
-  sender: User!
+  user: User!
   channel: Channel!
   timestamp: String!
 }
@@ -29,6 +29,8 @@ type Mutation {
   registerUser(name: String!, email: String!, password: String!): User
   createChannel(name: String!): Channel
   sendMessage(userId: ID!, channelId: ID!, content: String!): Message
+  loginUser(email: String!, password: String!): LoginResponse!
+
 }
 
 type Subscription {
@@ -47,3 +49,9 @@ type UserResponse {
   email: String!
   status: Boolean!
 }
+type LoginResponse {
+  token: String!
+  user: User!
+}
+
+

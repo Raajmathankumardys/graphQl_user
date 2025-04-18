@@ -17,4 +17,8 @@
 
     @Column({ default: true })
     status!: boolean;
+
+    @Column({ default: 'user' }) // roles can be 'user', 'admin', etc.
+    role!: string;
+
   }
